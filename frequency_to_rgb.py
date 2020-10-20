@@ -86,3 +86,8 @@ def xyz_to_rgb(w):
         g = g + difference
         b = 255
     return (r, g, b)  # I am not sure how I am going to return the rgb values so this is just a placeholder
+
+
+w=float(input("input wavelength in nm"))
+w=w*0.1 # multiply by 0.1 because functions use wavelength in angstroms (0.1 of a nm)
+print(xyz_to_rgb(w))
