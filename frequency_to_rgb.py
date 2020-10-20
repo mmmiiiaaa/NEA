@@ -16,7 +16,9 @@ def gauss(w, alpha, mu, sigma_1, sigma_2):
         sigma = sigma_1  # than the value of mu
     else:
         sigma = sigma_2
-    g_product = alpha * (math.exp(((pow((w - mu), 2)) / -2 * pow(sigma, 2))))
+    top = pow(w - mu, 2)
+    bottom = -2 * pow(sigma, 2)
+    g_product = alpha * (math.exp(top/bottom))
 
     return g_product
 
@@ -42,9 +44,11 @@ def z_func(w):
 
 def gamma_correct(u):  # these make the value u a gamma compressed value
     if u <= 0.031308:
-        return 12.92 * u
+        g_compressed=(12.92 * u)
     else:
-        return (1.055 * (u ^ (1 / 2.4))) - 0.055
+        g_compressed=(1.055 * (u ** (1 / 2.4))) - 0.055
+    return g_compressed
+
 
 
 def clip_range(value_to_clip):  # this function removes invalid values of RGB
@@ -129,5 +133,4 @@ sigma_1=379 # I have removed if statement for deciding sigma here as I am using 
 # for the first gausiian function sigma1 is used for 500nm
 top=pow(w - mu, 2)
 bottom=-2*pow(sigma_1, 2)
-final=top/bottom
 print(np.exp(top/bottom))
