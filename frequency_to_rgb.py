@@ -16,7 +16,7 @@ def gauss(w, alpha, mu, sigma_1, sigma_2):
         sigma = sigma_1  # than the value of mu
     else:
         sigma = sigma_2
-    g_product = alpha * math.exp((pow((w - mu), 2)) / -2 * pow(sigma, 2))
+    g_product = alpha * (math.exp(((pow((w - mu), 2)) / -2 * pow(sigma, 2))))
 
     return g_product
 
@@ -123,3 +123,11 @@ print(z_func(w))
 
 print("next line prints the first value used in the x_func")
 print(gauss(w, 1.056, 5998, 379, 310))
+alpha=1.056
+mu=5998
+sigma_1=379 # I have removed if statement for deciding sigma here as I am using 500nm as my test input and know that
+# for the first gausiian function sigma1 is used for 500nm
+top=pow(w - mu, 2)
+bottom=-2*pow(sigma_1, 2)
+final=top/bottom
+print(np.exp(top/bottom))
