@@ -11,11 +11,14 @@ import numpy as np
 # alpha, mu, s1 and s2 are just constants dictated in the x, y or z _funcs
 # output:
 # the value that wavelength takes on the guassian distribution
-def gauss(w, alpha, mu, s1, s2):
+def gauss(w, alpha, mu, sigma_1, sigma_2):
     if w < mu:  # the value of sigma used (s1 or s2) is determined by whether the wavelength is smaller than...
-        g_product = alpha * math.exp(((w - mu) ^ 2) / -2(s1 ^ 2))  # than the value of mu
+        sigma = sigma_1  # than the value of mu
     else:
-        g_product = alpha * math.exp(((w - mu) ^ 2) / -2(s2 ^ 2))
+        sigma = sigma_2
+    top = pow(w - mu, 2) # TODO: replace all pows with ** or vv
+    bottom = -2 * pow(sigma, 2)
+    g_product = alpha * (math.exp(top/bottom))
 
     return g_product
 
@@ -37,13 +40,15 @@ def z_func(w):
     return z_val
 
 
-# the fucntions below (gamma_correct and clip_range) are used for the function xyz_to_rgb
+# the functions below (gamma_correct and clip_range) are used for the function xyz_to_rgb
 
 def gamma_correct(u):  # these make the value u a gamma compressed value
     if u <= 0.031308:
-        return 12.92 * u
+        g_compressed=(12.92 * u)
     else:
-        return (1.055 * (u ^ (1 / 2.4))) - 0.055
+        g_compressed=(1.055 * (u ** (1 / 2.4))) - 0.055
+    return g_compressed
+
 
 
 def clip_range(value_to_clip):  # this function removes invalid values of RGB
@@ -54,6 +59,10 @@ def clip_range(value_to_clip):  # this function removes invalid values of RGB
             value_to_clip = 1
     return value_to_clip
 
+
+# xyz_to_rgb
+# parameters: wavelength
+# output: the rgb code that corresponds to the wavelength
 
 def xyz_to_rgb(w):
     matrix1 = np.array([[3.24096994, -1.53738318, -0.49861076], [-0.96924364, 1.8759675, 0.04155506],
@@ -82,3 +91,46 @@ def xyz_to_rgb(w):
         g = g + difference
         b = 255
     return (r, g, b)  # I am not sure how I am going to return the rgb values so this is just a placeholder
+
+
+#code below is just used to test inputs and outputs
+
+w = float(input("input wavelength in nm"))
+w = w * 10  # multiply by 10 because functions use wavelength in angstroms (0.1 of a nm)
+print(xyz_to_rgb(w))
+
+#below is part of the code from the function xyz_to_rgb
+
+# matrix1 = np.array([[3.24096994, -1.53738318, -0.49861076], [-0.96924364, 1.8759675, 0.04155506],
+#                         [0.05563008, -0.20397696, 1.05697151]])
+# xyz_matrix = np.array([x_func(w), y_func(w), z_func(w)])
+# rgb_matrix = matrix1.dot(xyz_matrix)
+# r_linear = (rgb_matrix[0])
+# g_linear = (rgb_matrix[1])
+# b_linear = (rgb_matrix[2])
+# r = 255 * clip_range(gamma_correct(r_linear))
+# g = 255 * clip_range(gamma_correct(g_linear))
+# b = 255 * clip_range(gamma_correct(b_linear))
+#
+# print("next line of values are the values of r g b before they get incremented (so that at least one equals 255")
+# print (r, g, b)
+#
+# print("next 3 lines of values are the values of r_linear, g_linear, and b_linear")
+# print(r_linear)
+# print(g_linear)
+# print(b_linear)
+#
+# print("next 2 lines of values are the values of X Y and Z from the functions for the CIE colour space")
+# print(x_func(w))
+# print(y_func(w))
+# print(z_func(w))
+#
+# print("next line prints the first value used in the x_func")
+# print(gauss(w, 1.056, 5998, 379, 310))
+# alpha=1.056
+# mu=5998
+# sigma_1=379 # I have removed if statement for deciding sigma here as I am using 500nm as my test input and know that
+# # for the first gausiian function sigma1 is used for 500nm
+# top=pow(w - mu, 2)
+# bottom=-2*pow(sigma_1, 2)
+# print(np.exp(top/bottom))
