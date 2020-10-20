@@ -16,7 +16,7 @@ def gauss(w, alpha, mu, sigma_1, sigma_2):
         sigma = sigma_1  # than the value of mu
     else:
         sigma = sigma_2
-    top = pow(w - mu, 2)
+    top = pow(w - mu, 2) # TODO: replace all pows with ** or vv
     bottom = -2 * pow(sigma, 2)
     g_product = alpha * (math.exp(top/bottom))
 
@@ -101,36 +101,36 @@ print(xyz_to_rgb(w))
 
 #below is part of the code from the function xyz_to_rgb
 
-matrix1 = np.array([[3.24096994, -1.53738318, -0.49861076], [-0.96924364, 1.8759675, 0.04155506],
-                        [0.05563008, -0.20397696, 1.05697151]])
-xyz_matrix = np.array([x_func(w), y_func(w), z_func(w)])
-rgb_matrix = matrix1.dot(xyz_matrix)
-r_linear = (rgb_matrix[0])
-g_linear = (rgb_matrix[1])
-b_linear = (rgb_matrix[2])
-r = 255 * clip_range(gamma_correct(r_linear))
-g = 255 * clip_range(gamma_correct(g_linear))
-b = 255 * clip_range(gamma_correct(b_linear))
-
-print("next line of values are the values of r g b before they get incremented (so that at least one equals 255")
-print (r, g, b)
-
-print("next 3 lines of values are the values of r_linear, g_linear, and b_linear")
-print(r_linear)
-print(g_linear)
-print(b_linear)
-
-print("next 2 lines of values are the values of X Y and Z from the functions for the CIE colour space")
-print(x_func(w))
-print(y_func(w))
-print(z_func(w))
-
-print("next line prints the first value used in the x_func")
-print(gauss(w, 1.056, 5998, 379, 310))
-alpha=1.056
-mu=5998
-sigma_1=379 # I have removed if statement for deciding sigma here as I am using 500nm as my test input and know that
-# for the first gausiian function sigma1 is used for 500nm
-top=pow(w - mu, 2)
-bottom=-2*pow(sigma_1, 2)
-print(np.exp(top/bottom))
+# matrix1 = np.array([[3.24096994, -1.53738318, -0.49861076], [-0.96924364, 1.8759675, 0.04155506],
+#                         [0.05563008, -0.20397696, 1.05697151]])
+# xyz_matrix = np.array([x_func(w), y_func(w), z_func(w)])
+# rgb_matrix = matrix1.dot(xyz_matrix)
+# r_linear = (rgb_matrix[0])
+# g_linear = (rgb_matrix[1])
+# b_linear = (rgb_matrix[2])
+# r = 255 * clip_range(gamma_correct(r_linear))
+# g = 255 * clip_range(gamma_correct(g_linear))
+# b = 255 * clip_range(gamma_correct(b_linear))
+#
+# print("next line of values are the values of r g b before they get incremented (so that at least one equals 255")
+# print (r, g, b)
+#
+# print("next 3 lines of values are the values of r_linear, g_linear, and b_linear")
+# print(r_linear)
+# print(g_linear)
+# print(b_linear)
+#
+# print("next 2 lines of values are the values of X Y and Z from the functions for the CIE colour space")
+# print(x_func(w))
+# print(y_func(w))
+# print(z_func(w))
+#
+# print("next line prints the first value used in the x_func")
+# print(gauss(w, 1.056, 5998, 379, 310))
+# alpha=1.056
+# mu=5998
+# sigma_1=379 # I have removed if statement for deciding sigma here as I am using 500nm as my test input and know that
+# # for the first gausiian function sigma1 is used for 500nm
+# top=pow(w - mu, 2)
+# bottom=-2*pow(sigma_1, 2)
+# print(np.exp(top/bottom))
