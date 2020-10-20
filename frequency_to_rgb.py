@@ -11,11 +11,12 @@ import numpy as np
 # alpha, mu, s1 and s2 are just constants dictated in the x, y or z _funcs
 # output:
 # the value that wavelength takes on the guassian distribution
-def gauss(w, alpha, mu, s1, s2):
+def gauss(w, alpha, mu, sigma_1, sigma_2):
     if w < mu:  # the value of sigma used (s1 or s2) is determined by whether the wavelength is smaller than...
-        g_product = alpha * math.exp(((w - mu) ^ 2) / -2(s1 ^ 2))  # than the value of mu
+        sigma = sigma_1  # than the value of mu
     else:
-        g_product = alpha * math.exp(((w - mu) ^ 2) / -2(s2 ^ 2))
+        sigma = sigma_2
+    g_product = alpha * math.exp(((w - mu) ^ 2) / -2 * (sigma ^ 2))
 
     return g_product
 
@@ -37,7 +38,7 @@ def z_func(w):
     return z_val
 
 
-# the fucntions below (gamma_correct and clip_range) are used for the function xyz_to_rgb
+# the functions below (gamma_correct and clip_range) are used for the function xyz_to_rgb
 
 def gamma_correct(u):  # these make the value u a gamma compressed value
     if u <= 0.031308:
@@ -54,6 +55,9 @@ def clip_range(value_to_clip):  # this function removes invalid values of RGB
             value_to_clip = 1
     return value_to_clip
 
+# xyz_to_rgb
+#parameters: wavelength
+#output: the rgb code that corresponds to the wavelength
 
 def xyz_to_rgb(w):
     matrix1 = np.array([[3.24096994, -1.53738318, -0.49861076], [-0.96924364, 1.8759675, 0.04155506],
