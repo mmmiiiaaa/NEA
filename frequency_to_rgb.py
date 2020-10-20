@@ -16,7 +16,7 @@ def gauss(w, alpha, mu, sigma_1, sigma_2):
         sigma = sigma_1  # than the value of mu
     else:
         sigma = sigma_2
-    g_product = alpha * math.exp(((w - mu) ^ 2) / -2 * (sigma ^ 2))
+    g_product = alpha * math.exp((pow((w-mu),2)) / -2 * pow(sigma,2))
 
     return g_product
 
@@ -89,5 +89,5 @@ def xyz_to_rgb(w):
 
 
 w=float(input("input wavelength in nm"))
-w=w*0.1 # multiply by 0.1 because functions use wavelength in angstroms (0.1 of a nm)
+w=w*10 # multiply by 10 because functions use wavelength in angstroms (0.1 of a nm)
 print(xyz_to_rgb(w))
