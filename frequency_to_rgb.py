@@ -16,9 +16,9 @@ def gauss(w, alpha, mu, sigma_1, sigma_2):
         sigma = sigma_1  # than the value of mu
     else:
         sigma = sigma_2
-    top = pow(w - mu, 2) # TODO: replace all pows with ** or vv
+    top = pow(w - mu, 2)  # TODO: replace all pows with ** or vv
     bottom = -2 * pow(sigma, 2)
-    g_product = alpha * (math.exp(top/bottom))
+    g_product = alpha * (math.exp(top / bottom))
 
     return g_product
 
@@ -44,11 +44,10 @@ def z_func(w):
 
 def gamma_correct(u):  # these make the value u a gamma compressed value
     if u <= 0.031308:
-        g_compressed=(12.92 * u)
+        g_compressed = (12.92 * u)
     else:
-        g_compressed=(1.055 * (u ** (1 / 2.4))) - 0.055
+        g_compressed = (1.055 * (u ** (1 / 2.4))) - 0.055
     return g_compressed
-
 
 
 def clip_range(value_to_clip):  # this function removes invalid values of RGB
@@ -93,13 +92,13 @@ def xyz_to_rgb(w):
     return (r, g, b)  # I am not sure how I am going to return the rgb values so this is just a placeholder
 
 
-#code below is just used to test inputs and outputs
+# code below is just used to test inputs and outputs
 
 w = float(input("input wavelength in nm"))
 w = w * 10  # multiply by 10 because functions use wavelength in angstroms (0.1 of a nm)
 print(xyz_to_rgb(w))
 
-#below is part of the code from the function xyz_to_rgb
+# below is part of the code from the function xyz_to_rgb
 
 # matrix1 = np.array([[3.24096994, -1.53738318, -0.49861076], [-0.96924364, 1.8759675, 0.04155506],
 #                         [0.05563008, -0.20397696, 1.05697151]])
