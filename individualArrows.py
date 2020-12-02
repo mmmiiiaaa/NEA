@@ -54,4 +54,17 @@ list_ind.append(ind_out)
 # print(list_ind)
 # plt.show() #displays the graph_ind_arrow
 
+# r=48/255
+# g=255/255
+# b=177/255
+# source_x=-50
+# detector_x=50
+# point_x_n=[-450/11,-350/11,-250/11,-150/11,-50/11,50/11,150/11,250/11,350/11,450/11]
+# frequency=760000000000000
+# for n in point_x_n:
+#     ind_out = (
+#         individual_arrows(frequency, source_x, detector_x, n))  # ind_out=the list of the x and y coordinate
+#     list_ind.append(ind_out)
+# print(list_ind)
+
 
