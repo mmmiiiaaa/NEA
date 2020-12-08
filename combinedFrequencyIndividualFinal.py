@@ -9,6 +9,10 @@ source_x=-50
 detector_x=50
 point_x=list()
 unit=1
+test_nvalues_db=[-450/11,-350/11,-250/11,-150/11,-50/11,50/11,150/11,250/11,350/11,450/11]
+frequency=3.8e8/wavelength
+n=10
+list_ind=list()
 
 # this is a guassian function, which is then used in the functions for X,Y and Z
 # parameters:
@@ -107,7 +111,49 @@ def graph_ind_arrow(x, y, ):
                                     b))  # creates a graph that plots a line from 0,0 to x,y using the r g and b values
     # from the frequency_to_rgb procedure
     # this will need to be expanded and refined when I start creating the UI
+    plt.xlim(-1,1)
+    plt.ylim(-1,1)#these set the axis range to -1 to 1 in both the x and y direction
+    plt.tick_params(axis='x', which='both', bottom=False, top=False,
+                    labelbottom=False)  # taken from pythonmatplotlibtips.blogspot.com, see references for link
+    plt.tick_params(axis='y', which='both', right=False, left=False,
+                    labelleft=False)  # removes axis labels, lines and ticks
+    for pos in ['right', 'top', 'bottom', 'left']:
+        plt.gca().spines[pos].set_visible(False)
 
-r=(xyz_to_rgb(w)[0])
-g=(xyz_to_rgb(w)[1])
-b=(xyz_to_rgb(w)[2])
+
+r=(xyz_to_rgb(w)[0])/255
+g=(xyz_to_rgb(w)[1])/255
+b=(xyz_to_rgb(w)[2])/255
+for count_n in range (0,n):
+    point_x=test_nvalues_db[count_n]
+    x=individual_arrows(frequency, source_x, detector_x,point_x)[0]
+    y=individual_arrows(frequency, source_x, detector_x,point_x)[1]
+    graph_ind_arrow(x,y)
+    plt.savefig(str(count_n)+'.png')
+    plt.clf()
+    ind_out = (
+        individual_arrows(frequency, source_x, detector_x, point_x))  # ind_out=the list of the x and y coordinate
+    list_ind.append(ind_out)
+#below is the subsection finalArrow - this is not in a function as this is only run once - but this is tbd
+list_x = list()
+list_y = list()
+list_x.append(list_ind[0][0])
+list_y.append(list_ind[0][1])
+for count_n in range(1, n):  # this starts from 0 to n-1 (the first arrow is found at [0][0] and [0][1])
+    list_x.append(list_ind[count_n][0] + list_x[count_n - 1])  # these lists have been formatted for final arrow
+    list_y.append(list_ind[count_n][1] + list_y[(
+                                                    count_n) - 1])  # each value is their original value from
+    # list_ind plus all of the corresponding values summed before it
+
+plt.plot(list_x, list_y, color=(r, g, b))
+plt.plot([list_x[0], list_x[n - 1]], [list_y[0], list_y[n - 1]], color=(0, 0, 0))
+plt.tick_params(axis='x', which='both', bottom=False, top=False,
+                labelbottom=False)  # taken from pythonmatplotlibtips.blogspot.com, see references for link
+plt.tick_params(axis='y', which='both', right=False, left=False,
+                labelleft=False)  # removes axis labels, lines and ticks
+for pos in ['right', 'top', 'bottom', 'left']:
+    plt.gca().spines[pos].set_visible(False)
+plt.savefig('finalArrow.png')
+plt.clf()
+print(list_x)
+print(list_y)

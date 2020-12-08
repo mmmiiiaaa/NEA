@@ -35,6 +35,15 @@ def graph_ind_arrow(x, y, ):
                                     b))  # creates a graph that plots a line from 0,0 to x,y using the r g and b values
     # from the frequency_to_rgb procedure
     # this will need to be expanded and refined when I start creating the UI
+    plt.xlim(-1,1)
+    plt.ylim(-1,1)#these set the axis range to -1 to 1 in both the x and y direction
+    plt.tick_params(axis='x', which='both', bottom=False, top=False,
+                    labelbottom=False)  # taken from pythonmatplotlibtips.blogspot.com, see references for link
+    plt.tick_params(axis='y', which='both', right=False, left=False,
+                    labelleft=False)  # removes axis labels, lines and ticks
+    for pos in ['right', 'top', 'bottom', 'left']:
+        plt.gca().spines[pos].set_visible(False)
+
 
 ind_out=(individual_arrows(frequency, source_x, detector_x, point_x))#ind_out=the list of the x and y coordinate
 list_ind.append(ind_out)

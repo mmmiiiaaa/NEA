@@ -30,3 +30,5 @@ plt.tick_params(axis='y', which='both', right=False, left=False,
 for pos in ['right', 'top', 'bottom', 'left']:
     plt.gca().spines[pos].set_visible(False)
 plt.show()
+
+
