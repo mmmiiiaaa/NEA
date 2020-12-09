@@ -10,8 +10,8 @@ detector_x=50
 point_x=list()
 unit=1
 test_nvalues_db=[-450/11,-350/11,-250/11,-150/11,-50/11,50/11,150/11,250/11,350/11,450/11]
-frequency=3.8e8/wavelength
-n=10
+frequency=3.8e8/(wavelength*10e-9)#10e-9 to convert to m
+n=int(10)
 list_ind=list()
 
 # this is a guassian function, which is then used in the functions for X,Y and Z
@@ -124,16 +124,34 @@ def graph_ind_arrow(x, y, ):
 r=(xyz_to_rgb(w)[0])/255
 g=(xyz_to_rgb(w)[1])/255
 b=(xyz_to_rgb(w)[2])/255
-for count_n in range (0,n):
-    point_x=test_nvalues_db[count_n]
-    x=individual_arrows(frequency, source_x, detector_x,point_x)[0]
-    y=individual_arrows(frequency, source_x, detector_x,point_x)[1]
-    graph_ind_arrow(x,y)
-    plt.savefig(str(count_n)+'.png')
-    plt.clf()
+#this one also doesn't work
+for point_number in test_nvalues_db:
     ind_out = (
-        individual_arrows(frequency, source_x, detector_x, point_x))  # ind_out=the list of the x and y coordinate
+        individual_arrows(frequency, source_x, detector_x, point_number))  # ind_out=the list of the x and y coordinate
     list_ind.append(ind_out)
+print(list_ind)
+#THIS FOR LOOP IS GIVING THE WRONG RESULTS
+# for count_n in range (0,n):
+#     point_x=test_nvalues_db[count_n]
+#     x=individual_arrows(frequency, source_x, detector_x,point_x)[0]
+#     y=individual_arrows(frequency, source_x, detector_x,point_x)[1]
+#     graph_ind_arrow(x,y)
+#     plt.savefig(str(count_n)+'.png')
+#     plt.clf()
+#     ind_out = (
+#         individual_arrows(frequency, source_x, detector_x, point_x))  # ind_out=the list of the x and y coordinate
+#     print(ind_out)
+#     list_ind.append(ind_out)
+# for n in test_nvalues_db:
+#         x = individual_arrows(frequency, source_x, detector_x, n)[0]
+#         y = individual_arrows(frequency, source_x, detector_x, n)[1]
+#         graph_ind_arrow(x, y)
+#         plt.savefig(str(n) + '.png')
+#         plt.clf()
+#         ind_out = (
+#             individual_arrows(frequency, source_x, detector_x, n))  # ind_out=the list of the x and y coordinate
+#         list_ind.append(ind_out)
+
 #below is the subsection finalArrow - this is not in a function as this is only run once - but this is tbd
 list_x = list()
 list_y = list()
@@ -155,5 +173,7 @@ for pos in ['right', 'top', 'bottom', 'left']:
     plt.gca().spines[pos].set_visible(False)
 plt.savefig('finalArrow.png')
 plt.clf()
-print(list_x)
-print(list_y)
+# print(list_x)
+# print(list_y)
+print(list_ind)
+print(test_nvalues_db)
