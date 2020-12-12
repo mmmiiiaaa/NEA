@@ -62,7 +62,7 @@ def graph_ind_arrow(x, y, ):
 # graph_ind_arrow(ind_out[0],ind_out[1])
 # print(list_ind)
 # plt.show() #displays the graph_ind_arrow
-
+n=int(10)
 r=48/255
 g=255/255
 b=177/255
@@ -70,9 +70,11 @@ source_x=-50
 detector_x=50
 point_x_n=[-450/11,-350/11,-250/11,-150/11,-50/11,50/11,150/11,250/11,350/11,450/11]
 frequency=760000000000000
-for n in point_x_n:
+for count in range(0,n-1):
+    point_x=point_x_n[count]
     ind_out = (
-        individual_arrows(frequency, source_x, detector_x, n))  # ind_out=the list of the x and y coordinate
-print(list_ind)
+        individual_arrows(frequency, source_x, detector_x, point_x))  # ind_out=the list of the x and y coordinate
+    print(ind_out)
+print(individual_arrows(frequency, source_x, detector_x, -450/11))
 
 
