@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-r = 48 / 255  # this will come from frequency sub section
+r = 48 / 255  # this will come from input_frequency sub section
 g = 255 / 255
 b = 177 / 255
 n = 10  # this will be the user's input - this is just test data for now

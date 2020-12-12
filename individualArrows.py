@@ -9,10 +9,10 @@ height = 100  # refers to the y coordinate for the source and detector points (w
 
 # height will just be a set constant
 
-#parameters: frequency
-# point_x is the point where the light beam reflects off the horizontal surface (dependent on the value of n input)
-# source_x and detector_x are the x coordinates of the source and detector points
-# source_x I expect will be negative (on the left hand side of the origin) and detector_x positive, but this is tbd
+#parameters: input_frequency
+# constant_point_x is the point where the light beam reflects off the horizontal surface (dependent on the value of n input)
+# constant_source_x and detector_x are the x coordinates of the source and detector points
+# constant_source_x I expect will be negative (on the left hand side of the origin) and detector_x positive, but this is tbd
 #output: the x and y coordinate for the rotated line
 def individual_arrows(frequency, source_x, detector_x, point_x):
     period = (1 / frequency)  # WILL HAVE TO ENSURE WHEN THE FREQUENCY IS INPUT IT IS KEPT IN UNIT Hz
@@ -45,7 +45,7 @@ def graph_ind_arrow(x, y, ):
         plt.gca().spines[pos].set_visible(False)
 
 
-# ind_out=(individual_arrows(frequency, source_x, detector_x, point_x))#ind_out=the list of the x and y coordinate
+# ind_out=(individual_arrows(input_frequency, constant_source_x, detector_x, constant_point_x))#ind_out=the list of the x and y coordinate
 # list_ind.append(ind_out)
 
 
@@ -54,10 +54,10 @@ def graph_ind_arrow(x, y, ):
 # # and divide by 255
 # g = (int(input("input g"))) / 255
 # b = (int(input("input b"))) / 255
-# source_x = int(input("input source_x"))
+# constant_source_x = int(input("input constant_source_x"))
 # detector_x = int(input("input detector_x"))
-# point_x = int(input("input point_x"))
-# frequency = float(input("input frequency"))
+# constant_point_x = int(input("input constant_point_x"))
+# input_frequency = float(input("input input_frequency"))
 #
 # graph_ind_arrow(ind_out[0],ind_out[1])
 # print(list_ind)
