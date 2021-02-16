@@ -15,9 +15,11 @@ constant_point_x = list()  # constant_point_x holds the list which will come fro
 unit = 1  # this is length of all the individual arrows - this could be subject to change
 test_nvalues_db = [-450 / 11, -350 / 11, -250 / 11, -150 / 11, -50 / 11, 50 / 11, 150 / 11, 250 / 11, 350 / 11,
                    450 / 11]  # this is test data for n=10, Sx=-50, Dx=50
-input_frequency = 3.8 * 10e8 / (wavelength * 10e-9)  # 10e-9 to convert to m
+input_frequency = 299792458 / (wavelength * 10e-9)  # 10e-9 to convert to m
+# input_frequency=599584916000000 from individual file
 n = int(10)  # this is test data
 list_ind = list()  # list_ind used to store x y coordinates of individual_arrow function output
+
 
 
 #   FUNCTIONS
@@ -113,11 +115,11 @@ def xyz_to_rgb(w):
 # tbd output: the x and y coordinate for the rotated line
 def individual_arrows(frequency, source_x, detector_x, point_x):
     period = (1 / frequency)  # WILL HAVE TO ENSURE WHEN THE FREQUENCY IS INPUT IT IS KEPT IN UNIT Hz
-    speed_light = 3.8e8
+    speed_light = 299792458
     distance = sqrt((height ** 2) + ((source_x - point_x) ** 2)) + sqrt((height ** 2) + ((point_x - detector_x) ** 2))
     # using pythagoras' theorem to find the distance the light travels before and after it has been reflected
     time = distance / speed_light
-    rotation = (time / period) - ((time / period) // 1)  # this gives the final turn of the arrow
+    rotation = (time / period) - ((time / period) // 1)  # this gives the final turn of the arrow (removes the integer)
     angle = 2 * pi * rotation
     x = unit * sin(angle)  # x and y are the change in x and y coordinates when the unit line is rotated
     y = unit * cos(angle)
@@ -143,42 +145,44 @@ def graph_ind_arrow(x, y, ):
 
 
 #   END OF FUNCTIONS
-
-red = (
-          xyz_to_rgb(angstrom_wavelength)[
-              0]) / 255  # converts the rgb value from xyz_to_rgb() to a decimal between 0 and 1
-green = (xyz_to_rgb(angstrom_wavelength)[1]) / 255
-blue = (xyz_to_rgb(angstrom_wavelength)[2]) / 255
+colours=xyz_to_rgb(angstrom_wavelength)
+red=float(colours[0])/255
+green=float(colours[1])/255
+blue=float(colours[2])/255
+print(red,green,blue)
 for count in range(0, n):  # 0 up to n-1, iterates through all values of point_x
     constant_point_x = test_nvalues_db[
         count]  # test_nvalues_db will be replaced with the list produced by the database when the database section
     # is complete
-    temp_x = individual_arrows(input_frequency, constant_source_x, constant_detector_x, constant_point_x)[
-        0]  # takes the x value output from individual_arrows
-    temp_y = individual_arrows(input_frequency, constant_source_x, constant_detector_x, constant_point_x)[
-        1]  # takes the y value
+    temp_ind=individual_arrows(input_frequency, constant_source_x, constant_detector_x, constant_point_x)
+    temp_x=temp_ind[0]  # takes the x value output from individual_arrows
+    temp_y=temp_ind[1]  # takes the y value
     graph_ind_arrow(temp_x, temp_y)
     plt.savefig(str(count) + '.png')  # save the figure produced in graph_ind_arrow to a png
     plt.clf()  # clear the figure for the next iteration
-    ind_out = (
-        individual_arrows(input_frequency, constant_source_x, constant_detector_x, constant_point_x))  # ind_out=the
+    ind_out = (temp_ind)  # ind_out=the
     # list of the x and y coordinate
     list_ind.append(ind_out)
-
 # below is the subsection finalArrow - this is not in a function as this is only run once - but this is tbd
+print(list_ind)
 list_x = list()  # holds all x coordinate values from ind_out
 list_y = list()  # holds all y coordinate values from ind_out
 list_x.append(list_ind[0][0])
 list_y.append(list_ind[0][1])
-for count_n in range(1, n):  # this starts from 0 to n-1 (the first arrow is found at [0][0] and [0][1])
+for count_n in range(1, n): # this starts from 1 to n-1 (the first arrow is found at [0][0] and [0][1])
+    # print(count_n)
+    # print(list_ind[count_n][0])
+    # print(list_x[count_n - 1])
     list_x.append(list_ind[count_n][0] + (list_x[count_n - 1]))  # these lists have been formatted for final arrow
-    list_y.append(list_ind[count_n][1] + list_y[(
-                                                    count_n) - 1])  # each value is their original value from
+    list_y.append(list_ind[count_n][1] + (list_y[
+                                                    count_n - 1]))  # each value is their original value from
     # list_ind plus all of the corresponding values summed before it
-
+list_x.insert(0,int(0))
+list_y.insert(0,int(0))
+# print(list_x)
 plt.plot(list_x, list_y, color=(
     red, green, blue))  # plot x coordinates and y coordinates using the corresponding colour for the frequency inputted
-plt.plot([list_x[0], list_x[n - 1]], [list_y[0], list_y[n - 1]],
+plt.plot([list_x[0], list_x[n]], [list_y[0], list_y[n]],
          color=(0, 0, 0))  # plot a line that connects first point to last point in black
 plt.tick_params(axis='x', which='both', bottom=False, top=False,
                 labelbottom=False)  # taken from pythonmatplotlibtips.blogspot.com, see references for link
@@ -188,3 +192,7 @@ for pos in ['right', 'top', 'bottom', 'left']:
     plt.gca().spines[pos].set_visible(False)
 plt.savefig('finalArrow.png')  # save the figure
 plt.clf()  # clear the figure
+#TODO: find a way to make background of graph pngs to be grey
+#TODO: The final arrow graph should either have the scale visible OR the scale should be fixed
+
+# print (list_x, list_y)
